@@ -1,0 +1,126 @@
+*****************************************
+*********   ECE 5362, Au 2018   *********
+*********   Machine Problem 2	*********
+*********   DAMODAR YEKKULURI 	*********
+*****************************************
+
+***************Meet TA to understand how to update the CVNZ **********
+
+***************************************************
+*********   Start fetch cycel   *********
+***************************************************
+ st=0	rt='[pc] -> mar'	imar rac=1 rn=3
+ st=1	rt='[[mar]] -> mdr'	read
+ st=2	rt='[mdr] -> ir'	omdr iir
+ st=3	rt='[pc]+1 -> q'	rac=1 rn=3 ib p1 oadder
+ st=4	rt='[q] -> pc'		oq wac=1 wn=3
+	cond='ir158'  value=0 nst=10
+	cond='ir1512' value=0 nst=20
+	nst=10
+
+
+***************************************************
+*********   	Halt execution cycle	  *********
+***************************************************
+ st=10 halt
+
+
+
+***************************************************
+**********     Single Operand Instruction   *******
+***************************************************
+ st=20 
+	cond='ir118' value=2 nst=30
+	nst=10
+
+
+***************************************************
+*********     INC execution cycle 	 **********
+***************************************************
+ st=30 
+	cond='ir64' value=0 nst=100
+	cond='ir64' value=1 nst=200
+	cond='ir64' value=2 nst=300
+	cond='ir64' value=3 nst=400
+	cond='ir64' value=4 nst=1200
+	cond='ir64' value=5 nst=1200
+	nst=0
+
+***************************************************
+*********     Registor Addr mode 	 **********
+***************************************************
+ st=100	rt='[DST] + 1 -> q'	rac=3 ib p1 oadder newv newc
+ st=101	rt='[q] -> DST'		oq wac=3 newz newn
+	nst=0
+
+***************************************************
+*********     Reg Indirect Addr mode 	 **********
+***************************************************
+ st=200	rt='[DST] -> mar'	rac=3 imar
+ st=201	rt='[[mar]] -> mdr'	read
+ st=202	rt='[mdr] + 1 -> q'	omdr ib p1 oadder newv newc
+ st=203	rt='[q] -> mdr'		oq imdr newz newn
+	nst=1000
+
+***************************************************
+*********     Auto Inc Addr mode 	 **********
+***************************************************
+ st=300	rt='[DST] -> mar'	rac=3 imar
+ st=301	rt='[DST] + 1 -> q'	rac=3 ib p1 oadder
+ st=302	rt='[q] -> DST'		oq wac=3
+ st=303	rt='[[mar]] -> mdr'	read
+ st=304	rt='[mdr] + 1 -> q'	omdr ib p1 oadder newv newc
+ st=305	rt='[q] -> mdr'		oq imdr newz newn
+	nst=1000
+
+***************************************************
+*********     Auto Decr Addr mode 	 **********
+***************************************************
+ st=400	rt='[DST] -> t1'	rac=3 it1
+ st=401	rt='[t1]-1 -> q'	oa comp oadder
+ st=402	rt='[q] -> DST'		oq wac=3 
+ st=403	rt='[q] -> mar'		rac=3 imar
+ st=404	rt='[[mar]] -> mdr'	read
+ st=405	rt='[mdr] + 1 -> q'	omdr ib p1 oadder newv newc
+ st=406	rt='[q] -> mdr'		oq imdr newz newn
+	nst=1000
+
+
+***************************************************
+*********     	Index Addr mode 	 **********
+***************************************************
+ st=500	rt='[mdr] -> t1'	omdr it1
+ st=501	rt='[DST] + [t1] -> q'	rac=3 ib oa oadder newv newc
+ st=502	rt='[q] -> mar'		oq imar newz newn
+ st=503	rt='[[mar]] -> mdr'	read
+ st=504	rt='[mdr] + 1 -> q'	omdr ib p1 oadder newv newc
+ st=505	rt='[q] -> mdr'		oq imdr newz newn
+	nst=1000
+
+***************************************************
+*********     Absolute Addr mode 	 **********
+***************************************************
+ st=600	rt='[mdr] -> mar'	omdr imar
+ st=601	rt='[[mar]] -> mdr'	read
+ st=602	rt='[mdr] + 1 -> q'	omdr ib p1 oadder newv newc
+ st=603	rt='[q] -> mdr'		oq imdr newz newn
+	nst=1000
+
+
+***************************************************
+**********	Write operation		***********
+***************************************************
+
+ st=1000 rt='[mdr]  -> [[mar]]'  	write
+ 	nst=0
+
+***************************************************
+*********	  Second Fetch		  *********
+***************************************************
+
+ st=1200 rt='[pc]   -> mar'    	imar rac=1 rn=3
+ st=1201 rt='[[mar]]-> mdr' 	read
+ st=1202 rt='[pc]+1 -> q'    	rac=1 rn=3 ib p1 oadder
+ st=1203 rt='[q] -> pc'      	oq wac=1 wn=3
+       cond='ir64' value=4 nst=500
+       cond='ir64' value=5 nst=600

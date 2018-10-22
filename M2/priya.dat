@@ -1,0 +1,177 @@
+***************************************************
+***************************************************
+**************       ECE 5362        **************
+**************   MACHINE PROBLEM 2   **************
+**************     ABHISHEK ROY      **************
+***************************************************
+*************************************************** 
+
+************** Start fetch cycle ******************
+ 
+ st=0 rt='[PC]	 -> MAR'    	rac=1 rn=3 imar
+ st=1 rt='[[MAR]]-> MDR' 	read
+ st=2 rt='[MDR]  -> IR'    	iir omdr
+ st=3 rt='[PC]+1 -> Q'    	rac=1 rn=3 p1 ib oadder
+ st=4 rt='[Q]    -> PC'      	wac=1 wn=3 oq
+ 
+      cond='ir1512' value=0 nst=10
+      cond='ir1512' value=3 nst=20
+      nst=10
+
+************** HALT execution cycle ***************
+ st=10 halt	
+
+***************************************************
+***** Source addressing mode is obtained here *****
+***************************************************
+
+ st=20 
+       cond='ir118' value=0 nst=30
+       cond='ir118' value=1 nst=31
+       cond='ir118' value=2 nst=32
+       cond='ir118' value=3 nst=35
+       cond='ir118' value=4 nst=73
+       cond='ir118' value=5 nst=73
+       cond='ir118' value=6 nst=73
+
+***************************************************       
+** Destination Addressing Mode is obtained here ***
+***************************************************
+
+ st=21
+       cond='ir64' value=0 nst=60
+       cond='ir64' value=1 nst=61  
+       cond='ir64' value=2 nst=62
+       cond='ir64' value=3 nst=65
+       cond='ir64' value=4 nst=77
+       cond='ir64' value=5 nst=77
+       nst=0	
+
+**************************************************
+*********** SOURCE ADDRESSING MODES **************
+**************************************************
+      		
+****************  Register mode ******************
+ 
+ st=30 rt='[SRC]  -> T2'    	it2 rac=2 
+       nst=21
+
+************ Register Indirect mode **************
+ 
+ st=31 rt='[SRC]  -> T3'    	it3 rac=2 
+       nst=50
+
+************** Autoincrement mode ****************
+ 
+ st=32 rt='[SRC]  -> T3'    	it3 rac=2
+ st=33 rt='[SRC]+1-> Q'   	ib p1 oadder rac=2
+ st=34 rt='[Q]    -> SRC'	oq wac=2
+       nst=50
+
+************** Autodecrement mode ****************
+ 
+ st=35 rt='[SRC]  -> T1'    	it1 rac=2
+ st=36 rt='[T1]-1 -> Q'    	oa comp oadder
+ st=37 rt='[Q]    -> SRC'     	oq wac=2
+ st=38 rt='[SRC]  -> T3'    	it3 rac=2 
+       nst=50
+
+***************** Indexed mode *******************  
+ 
+ st=39 rt='[MDR]  -> T1'    	it1 omdr
+ st=40 rt='[T1]+[SRC]->Q'	rac=2 ib oa oadder
+ st=41 rt='[Q]    -> T3'      	oq it3    
+       nst=50
+
+***************** Absolute mode ******************
+ 
+ st=42 rt='[MDR]  -> T3'    	it3 omdr  
+       nst=50
+
+**************** Immediate mode ******************
+ 
+ st=43 rt='[MDR]  -> T2'    	it2 omdr   
+       nst=21
+
+************ Reading from main memory ************
+ 
+ st=50 rt='[T3]   -> MAR'    	ot3 imar 
+ st=51 rt='[[MAR]]-> MDR' 	read
+ st=52 rt='[MDR]  -> T2'    	it2 omdr  
+       nst=21
+
+**************************************************
+********* DESTINATION ADDRESSING MODES ***********
+**************************************************
+
+***************** Register mode ******************
+
+ st=60 rt='[T2]   -> DST'    	ot2 wac=3 newz newn clrc clrv 
+       nst=0
+
+************* Register Indirect mode *************
+
+ st=61 rt='[DST]  -> T4'    	it4 rac=3 
+       nst=85
+
+*************** Autoincrement mode ***************
+
+ st=62 rt='[DST]  -> T4'    	it4 rac=3
+ st=63 rt='[DST]+1-> Q'  	ib p1 oadder rac=3
+ st=64 rt='[Q]    -> DST'     	oq wac=3   
+       nst=85
+
+*************** Autodecrement mode ***************
+ 
+ st=65 rt='[DST]  -> T1'   	it1 rac=3
+ st=66 rt='[T1]-1 -> Q'   	oa comp oadder
+ st=67 rt='[Q]    -> DST'    	oq wac=3 
+ st=68 rt='[DST]  -> T4'   	it4 rac=3   
+       nst=85
+
+****************** Indexed mode ******************
+
+ st=69 rt='[MDR]  -> T1'   	it1 omdr
+ st=70 rt='[T1]+[DST]-> Q' 	rac=3 ib oa oadder
+ st=71 rt='[Q]    -> T4'     	it4 oq      
+       nst=85
+
+**************** Absolute mode *******************
+
+ st=72 rt='[MDR]  -> T4'   	omdr it4  
+       nst=85   
+
+**************************************************       
+****************** SECOND FETCH ******************
+**************************************************
+
+********* Second Fetch for source operand ********
+
+ st=73 rt='[PC]   -> MAR'    	imar rac=1 rn=3
+ st=74 rt='[[MAR]]-> MDR' 	read
+ st=75 rt='[PC]+1 -> Q'    	rac=1 rn=3 ib p1 oadder
+ st=76 rt='[Q]    -> PC'      	oq wac=1 wn=3
+
+       cond='ir118' value=4 nst=39
+       cond='ir118' value=5 nst=42
+       cond='ir118' value=6 nst=43		
+
+****** Second Fetch for destination operand ******
+
+ st=77 rt='[PC]   -> MAR'    	imar rac=1 rn=3
+ st=78 rt='[[MAR]]-> MDR' 	read
+ st=79 rt='[PC]+1 -> Q'    	rac=1 rn=3 ib p1 oadder
+ st=80 rt='[Q]    -> PC'      	oq wac=1 wn=3
+
+       cond='ir64' value=4 nst=69
+       cond='ir64' value=5 nst=72
+
+**************************************************
+********** Main memory write operation ***********
+**************************************************
+
+ st=85 rt='[T4]   -> MAR'   	imar ot4 
+ st=86 rt='[T2]   -> MDR'   	imdr ot2 newz newn clrc clrv
+ st=87 rt='[MDR]  -> MAR'  	write
+       nst=0
+
