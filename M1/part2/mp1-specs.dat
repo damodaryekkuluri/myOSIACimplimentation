@@ -1,0 +1,71 @@
+*****************************************
+*********   ECE 5362, Au 2018   *********
+*********   Machine Problem 1	*********
+*********   	part - 2	*********
+*********   DAMODAR YEKKULURI 	*********
+*****************************************
+*********   Start fetch cycel   *********
+
+ st=0	rt='[pc] -> mar'	imar rac=1 rn=3
+ st=1	rt='[[mar]] -> mdr'	read
+ st=2	rt='[mdr] -> ir'	omdr iir
+ st=3	rt='[pc]+1 -> q'	rac=1 rn=3 ib p1 oadder
+ st=4	rt='[q] -> pc'		oq wac=1 wn=3
+	cond='ir158'  value=0 nst=10
+	cond='ir1512' value=0 nst=20
+	nst=10
+
+*********   Halt execution cycle   *********
+ st=10 halt
+
+***************************************************
+**********     Single Operand Instruction   *******
+***************************************************
+ st=20 
+	cond='ir118' value=2 nst=30
+	nst=10
+
+
+***************************************************
+*********     INC execution cycle 	 **********
+***************************************************
+ st=30 
+	cond='ir1' value=0 nst=100
+	nst=200
+
+ st=100 
+	cond='ir0' value=0 nst=110
+	nst=120
+
+***************************************************
+*********     INC AC execution cycle 	 **********
+***************************************************
+ st=110	rt='[ac] + 1 -> q'	rac=1 rn=0 ib p1 oadder newv newc
+ st=111	rt='[q] -> ac'		oq wac=1 wn=0 newz newn
+	nst=0
+
+***************************************************
+*********     INC X execution cycle 	 **********
+***************************************************
+ st=120	rt='[x] + 1 -> q'	rac=1 rn=1 ib p1 oadder newv newc
+ st=121	rt='[q] -> x'		oq wac=1 wn=1 newz newn
+	nst=0
+
+ st=200 
+	cond='ir0' value=0 nst=210
+	nst=220
+
+***************************************************
+*********     INC SP execution cycle 	 **********
+***************************************************
+ st=210	rt='[sp] + 1 -> q'	rac=1 rn=2 ib p1 oadder newv newc
+ st=211	rt='[q] -> sp'		oq wac=1 wn=2 newz newn
+	nst=0
+
+***************************************************
+*********     INC PC execution cycle 	 **********
+***************************************************
+ st=220	rt='[pc] + 1 -> q'	rac=1 rn=3 ib p1 oadder newv newc
+ st=221	rt='[q] -> pc'		oq wac=1 wn=3 newz newn
+	nst=0
+
