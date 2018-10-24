@@ -1,0 +1,136 @@
+  Hex/Decimal memory dump (least significant word on left)
+  Only lines with at least one nonzero value printed
+     0/   0. : (  201/   513.)(  200/   512.)(  212/   530.)(  222/   546.)
+     4/   4. : (  232/   562.)(  242/   578.)( FFFE/    -2.)(    0/     0.)
+     8/   8. : ( 7FFF/ 32767.)( FFFF/    -1.)( FEFF/  -257.)(    0/     0.)
+ state is decimal format; registers are hex 
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+   starting instruction 1
+    0 FFFF 7FFF   8   0    0    0    0    0    0    0   0    0    0 0101 [pc] -> mar     
+    1 FFFF 7FFF   8   0    0    0    0    0    0    0   0    0    0 0101 [[mar]] -> mdr  
+    2 FFFF 7FFF   8   0    0    0    0    0    0    0   0  201    0 0101 [mdr] -> ir     
+    3 FFFF 7FFF   8   0    0    0    0    0    0    0   0  201  201 0101 [pc]+1 -> q     
+    4 FFFF 7FFF   8   0    0    1    0    0    0    0   0  201  201 0101 [q] -> pc       
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+   20 FFFF 7FFF   8   1    0    1    0    0    0    0   0  201  201 0101 --              
+   30 FFFF 7FFF   8   1    0    1    0    0    0    0   0  201  201 0101 --              
+  100 FFFF 7FFF   8   1    0    1    0    0    0    0   0  201  201 0101 [dst] + 1 -> q  
+  101 FFFF 7FFF   8   1    0 8000    0    0    0    0   0  201  201 0101 [q] -> dst      
+   starting instruction 2
+    0 FFFF 8000   8   1    0 8000    0    0    0    0   0  201  201 0101 [pc] -> mar     
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+    1 FFFF 8000   8   1    0 8000    0    0    0    0   1  201  201 0101 [[mar]] -> mdr  
+    2 FFFF 8000   8   1    0 8000    0    0    0    0   1  200  201 0101 [mdr] -> ir     
+    3 FFFF 8000   8   1    0 8000    0    0    0    0   1  200  200 0101 [pc]+1 -> q     
+    4 FFFF 8000   8   1    0    2    0    0    0    0   1  200  200 0101 [q] -> pc       
+   20 FFFF 8000   8   2    0    2    0    0    0    0   1  200  200 0101 --              
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+   30 FFFF 8000   8   2    0    2    0    0    0    0   1  200  200 0101 --              
+  100 FFFF 8000   8   2    0    2    0    0    0    0   1  200  200 0101 [dst] + 1 -> q  
+  101 FFFF 8000   8   2    0    0    0    0    0    0   1  200  200 1001 [q] -> dst      
+   starting instruction 3
+    0    0 8000   8   2    0    0    0    0    0    0   1  200  200 1010 [pc] -> mar     
+    1    0 8000   8   2    0    0    0    0    0    0   2  200  200 1010 [[mar]] -> mdr  
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+    2    0 8000   8   2    0    0    0    0    0    0   2  212  200 1010 [mdr] -> ir     
+    3    0 8000   8   2    0    0    0    0    0    0   2  212  212 1010 [pc]+1 -> q     
+    4    0 8000   8   2    0    3    0    0    0    0   2  212  212 1010 [q] -> pc       
+   20    0 8000   8   3    0    3    0    0    0    0   2  212  212 1010 --              
+   30    0 8000   8   3    0    3    0    0    0    0   2  212  212 1010 --              
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+  200    0 8000   8   3    0    3    0    0    0    0   2  212  212 1010 [dst] -> mar    
+  201    0 8000   8   3    0    3    0    0    0    0   8  212  212 1010 [[mar]] -> mdr  
+  202    0 8000   8   3    0    3    0    0    0    0   8 7FFF  212 1010 [mdr] + 1 -> q  
+  203    0 8000   8   3    0 8000    0    0    0    0   8 7FFF  212 0110 [q] -> mdr      
+ 1000    0 8000   8   3    0 8000    0    0    0    0   8 8000  212 0101 [mdr]  -> [[mar]
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+   starting instruction 4
+    0    0 8000   8   3    0 8000    0    0    0    0   8 8000  212 0101 [pc] -> mar     
+    1    0 8000   8   3    0 8000    0    0    0    0   3 8000  212 0101 [[mar]] -> mdr  
+    2    0 8000   8   3    0 8000    0    0    0    0   3  222  212 0101 [mdr] -> ir     
+    3    0 8000   8   3    0 8000    0    0    0    0   3  222  222 0101 [pc]+1 -> q     
+    4    0 8000   8   3    0    4    0    0    0    0   3  222  222 0101 [q] -> pc       
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+   20    0 8000   8   4    0    4    0    0    0    0   3  222  222 0101 --              
+   30    0 8000   8   4    0    4    0    0    0    0   3  222  222 0101 --              
+  300    0 8000   8   4    0    4    0    0    0    0   3  222  222 0101 [dst] -> mar    
+  301    0 8000   8   4    0    4    0    0    0    0   8  222  222 0101 [dst] + 1 -> q  
+  302    0 8000   8   4    0    9    0    0    0    0   8  222  222 0101 [q] -> dst      
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+  303    0 8000   9   4    0    9    0    0    0    0   8  222  222 0101 [[mar]] -> mdr  
+  304    0 8000   9   4    0    9    0    0    0    0   8 8000  222 0101 [mdr] + 1 -> q  
+  305    0 8000   9   4    0 8001    0    0    0    0   8 8000  222 0001 [q] -> mdr      
+ 1000    0 8000   9   4    0 8001    0    0    0    0   8 8001  222 0001 [mdr]  -> [[mar]
+   starting instruction 5
+    0    0 8000   9   4    0 8001    0    0    0    0   8 8001  222 0001 [pc] -> mar     
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+    1    0 8000   9   4    0 8001    0    0    0    0   4 8001  222 0001 [[mar]] -> mdr  
+    2    0 8000   9   4    0 8001    0    0    0    0   4  232  222 0001 [mdr] -> ir     
+    3    0 8000   9   4    0 8001    0    0    0    0   4  232  232 0001 [pc]+1 -> q     
+    4    0 8000   9   4    0    5    0    0    0    0   4  232  232 0001 [q] -> pc       
+   20    0 8000   9   5    0    5    0    0    0    0   4  232  232 0001 --              
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+   30    0 8000   9   5    0    5    0    0    0    0   4  232  232 0001 --              
+  400    0 8000   9   5    0    5    0    0    0    0   4  232  232 0001 [dst] -> t1     
+  401    0 8000   9   5    9    5    0    0    0    0   4  232  232 0001 [t1]-1 -> q     
+  402    0 8000   9   5    9    8    0    0    0    0   4  232  232 0001 [q] -> dst      
+  403    0 8000   8   5    9    8    0    0    0    0   4  232  232 0001 [q] -> mar      
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+  404    0 8000   8   5    9    8    0    0    0    0   8  232  232 0001 [[mar]] -> mdr  
+  405    0 8000   8   5    9    8    0    0    0    0   8 8001  232 0001 [mdr] + 1 -> q  
+  406    0 8000   8   5    9 8002    0    0    0    0   8 8001  232 0001 [q] -> mdr      
+ 1000    0 8000   8   5    9 8002    0    0    0    0   8 8002  232 0001 [mdr]  -> [[mar]
+   starting instruction 6
+    0    0 8000   8   5    9 8002    0    0    0    0   8 8002  232 0001 [pc] -> mar     
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+    1    0 8000   8   5    9 8002    0    0    0    0   5 8002  232 0001 [[mar]] -> mdr  
+    2    0 8000   8   5    9 8002    0    0    0    0   5  242  232 0001 [mdr] -> ir     
+    3    0 8000   8   5    9 8002    0    0    0    0   5  242  242 0001 [pc]+1 -> q     
+    4    0 8000   8   5    9    6    0    0    0    0   5  242  242 0001 [q] -> pc       
+   20    0 8000   8   6    9    6    0    0    0    0   5  242  242 0001 --              
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+   30    0 8000   8   6    9    6    0    0    0    0   5  242  242 0001 --              
+ 1200    0 8000   8   6    9    6    0    0    0    0   5  242  242 0001 [pc]   -> mar   
+ 1201    0 8000   8   6    9    6    0    0    0    0   6  242  242 0001 [[mar]]-> mdr   
+ 1202    0 8000   8   6    9    6    0    0    0    0   6 FFFE  242 0001 [pc]+1 -> q     
+ 1203    0 8000   8   6    9    7    0    0    0    0   6 FFFE  242 0001 [q] -> pc       
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+  500    0 8000   8   7    9    7    0    0    0    0   6 FFFE  242 0001 [mdr] -> t1     
+  501    0 8000   8   7 FFFE    7    0    0    0    0   6 FFFE  242 0001 [dst] + [t1] -> 
+  502    0 8000   8   7 FFFE    6    0    0    0    0   6 FFFE  242 0001 [q] -> mar      
+  503    0 8000   8   7 FFFE    6    0    0    0    0   6 FFFE  242 0001 [[mar]] -> mdr  
+  504    0 8000   8   7 FFFE    6    0    0    0    0   6 FFFE  242 0001 [mdr] + 1 -> q  
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+  505    0 8000   8   7 FFFE FFFF    0    0    0    0   6 FFFE  242 0001 [q] -> mdr      
+ 1000    0 8000   8   7 FFFE FFFF    0    0    0    0   6 FFFF  242 0001 [mdr]  -> [[mar]
+   starting instruction 7
+    0    0 8000   8   7 FFFE FFFF    0    0    0    0   6 FFFF  242 0001 [pc] -> mar     
+    1    0 8000   8   7 FFFE FFFF    0    0    0    0   7 FFFF  242 0001 [[mar]] -> mdr  
+    2    0 8000   8   7 FFFE FFFF    0    0    0    0   7    0  242 0001 [mdr] -> ir     
+
+   st   ac    x  sp  pc   t1    q   t2   t3   t4   t5 mar  mdr   ir cvzn reg xfer
+    3    0 8000   8   7 FFFE FFFF    0    0    0    0   7    0    0 0001 [pc]+1 -> q     
+    4    0 8000   8   7 FFFE    8    0    0    0    0   7    0    0 0001 [q] -> pc       
+   10    0 8000   8   8 FFFE    8    0    0    0    0   7    0    0 0001 --              
+  test 1: Halt instruction executed 
+  Hex/Decimal memory dump (least significant word on left)
+  Only lines with at least one nonzero value printed
+     0/   0. : (  201/   513.)(  200/   512.)(  212/   530.)(  222/   546.)
+     4/   4. : (  232/   562.)(  242/   578.)( FFFF/    -1.)(    0/     0.)
+     8/   8. : ( 8002/-32766.)( FFFF/    -1.)( FEFF/  -257.)(    0/     0.)
