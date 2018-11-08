@@ -1,0 +1,292 @@
+*****************************************
+*********   ECE 5362, Au 2018   *********
+*********   Machine Problem 2	*********
+*********   DAMODAR YEKKULURI 	*********
+*****************************************
+
+***************************************************
+*********   Start fetch cycel   *********
+***************************************************
+ st=0	rt='[pc] -> mar'	imar rac=1 rn=3
+ st=1	rt='[[mar]] -> mdr'	read
+ st=2	rt='[mdr] -> ir'	omdr iir
+ st=3	rt='[pc]+1 -> q'	rac=1 rn=3 ib p1 oadder
+ st=4	rt='[q] -> pc'		oq wac=1 wn=3
+	cond='ir158'  value=0 nst=10
+	cond='ir1512' value=0 nst=20
+	nst=10
+
+
+***************************************************
+*********   	Halt execution cycle	  *********
+***************************************************
+ st=10 halt
+
+
+****************************************************************
+	***************************************************
+	**********     Single Operand Instruction   *******
+	***************************************************
+****************************************************************
+
+**************************************************
+*** START: Update temp reg based on ADDR MOD *****
+**************************************************
+ st=20
+      cond='ir64' value=0 nst=25
+      cond='ir64' value=1 nst=30
+      cond='ir64' value=2 nst=35
+      cond='ir64' value=3 nst=40
+      cond='ir64' value=4 nst=55
+      cond='ir64' value=5 nst=55
+      nst=0
+
+***************** Register mode ******************
+ st=25 rt='[DST]-> T5' 		it5 rac=3 
+       nst=150
+
+************* Register Indirect mode *************
+ st=30 rt='[DST]  -> T4'    	it4 rac=3 
+      nst=60
+
+*************** Autoincrement mode ***************
+ st=35 rt='[DST]  -> T4'    	it4 rac=3
+ st=36 rt='[DST]+1-> Q'  	ib p1 oadder rac=3
+ st=37 rt='[Q]    -> DST'     	oq wac=3   
+       nst=60
+
+*************** Autodecrement mode ***************
+ st=40 rt='[DST]  -> T1'   	rac=3 it1 
+ st=41 rt='[T1]-1 -> Q'   	oadder comp oa  
+ st=42 rt='[Q]    -> DST'    	wac=3 oq  
+ st=43 rt='[DST]  -> T4'   	rac=3 it4    
+       nst=60
+      
+****************** Indexed mode ******************
+ st=45 rt='[MDR]  -> T1'   	it1 omdr
+ st=46 rt='[T1]+[DST]-> Q' 	rac=3 ib oa oadder
+ st=47 rt='[Q]    -> T4'     	it4 oq
+       nst=60
+
+**************** Absolute mode *******************
+ st=50 rt='[MDR]  -> T4'   	omdr it4  
+       nst=60
+
+******** SECOND FETCH for Index, #,$ *************
+ st=55 rt='[PC]   -> MAR'  	rac=1 rn=3 imar
+ st=56 rt='[[MAR]]-> MDR'       read
+ st=57 rt='[PC]+1 -> Q'  	oadder p1 ib rac=1 rn=3   
+ st=58 rt='[Q]    -> PC'    	wac=1 wn=3 oq 
+       cond='ir64' value=4 nst=45
+       cond='ir64' value=5 nst=50
+
+**************************************************
+***** END: Update temp reg based on ADDR MOD *****
+**************************************************
+ 
+**************************************************
+***** START: READ DESTINATION OPERAND from MEM ***
+**************************************************
+ st=60 rt='[T4]   -> MAR' 	imar ot4 
+ st=61 rt='[[MAR]]-> MDR' 	read
+ st=62 rt='[MDR]  -> T5' 	omdr it5 
+       nst=150
+
+**************************************************
+***** END: READ DESTINATION OPERAND from MEM ***
+**************************************************
+
+**************************************************
+************* START: ALU single inst *************
+**************************************************
+st=70
+       cond='ir118' value=2 nst=75
+       cond='ir118' value=3 nst=80
+       cond='ir118' value=4 nst=85
+       nst=10 
+
+************* INCREMENT INSTRUCTION **************
+ st=75 rt='[T5]   -> T1' 	it1 ot5 
+ st=76 rt='[T1]+1 -> Q' 	oadder p1 oa newv newc 
+ st=77 rt='[Q]    -> T2' 	it2 oq newn newz
+       nst=90
+
+************ DECREMENT INSTRUCTION ***************
+ st=80 rt='[T5]   -> T1' 	it1 ot5 
+ st=81 rt='[T1]-1 -> Q' 	oadder comp oa newv newc 
+ st=82 rt='[Q]    -> T2' 	it2 oq newn newz 
+       nst=90
+
+************ NEGATION INSTRUCTION ***************
+ st=85 rt='[T5]   -> Q'        ib comp ot5 newv newc
+ st=86 rt='[Q]    -> T2' 	it2 oq newn newz
+       nst=90
+ 
+**************************************************
+*************  END: ALU single inst  *************
+**************************************************
+
+
+**************************************************
+********* START: Write back the data *************
+**************************************************
+ st=90
+       cond='ir64' value=0 nst=95
+       cond='ir64' value=1 nst=100
+       cond='ir64' value=2 nst=100
+       cond='ir64' value=3 nst=100
+       cond='ir64' value=4 nst=100
+       cond='ir64' value=5 nst=100
+
+************* Register Mode (DST) *****************
+ st=95 rt='[T2]   -> DST' 	wac=3 ot2 newn newz 
+       nst=0
+
+***************** DST is MEMORY ******************
+ st=100 rt='[T4]  -> MAR' 	imar ot4 
+ st=101 rt='[T2]  -> MDR' 	imdr ot2 newz newn
+ st=102 rt='[MDR] -> [MAR]' 	write
+       nst=0
+
+**************************************************
+*********** END: Write back the data *************
+**************************************************
+
+****************************************************************
+	***************************************************
+	********  END: Single Operand Instruction   *******
+	***************************************************
+****************************************************************
+
+
+
+
+
+
+**************************************************
+**** START: Redirect to single or double ALU******
+**************************************************
+ st=150
+       cond='ir1512' value=0 nst=70
+       cond='ir1512' value=1 nst=210
+       cond='ir1512' value=2 nst=215
+       cond='ir1512' value=3 nst=221
+       nst=90
+**************************************************
+***** END: Redirect to single or double ALU*******
+**************************************************
+
+
+
+
+
+****************************************************************
+	**************************************************
+	******* START: DOUBLE OPERAND INSTRUCTIONS *******
+	**************************************************
+****************************************************************
+
+
+***** Source addressing mode is obtained here *****
+ st=155
+      cond='ir118' value=0 nst=160
+      cond='ir118' value=1 nst=165
+      cond='ir118' value=2 nst=170
+      cond='ir118' value=3 nst=175
+      cond='ir118' value=4 nst=195
+      cond='ir118' value=5 nst=195
+      cond='ir118' value=6 nst=195
+     
+****************  Register mode ******************
+ st=160 rt='[SRC]  -> T2'    	it2 rac=2 
+       nst=20
+
+************ Register Indirect mode **************
+ st=165 rt='[SRC]  -> T3'    	it3 rac=2 
+       nst=225
+
+************** Autoincrement mode ****************
+ st=170 rt='[SRC]  -> T3'    	it3 rac=2
+ st=171 rt='[SRC]+1-> Q'   	ib p1 oadder rac=2
+ st=172 rt='[Q]    -> SRC'	oq wac=2
+       nst=225
+
+************** Autodecrement mode ****************
+ st=175 rt='[SRC]  -> T1'    	it1 rac=2
+ st=176 rt='[T1]-1 -> Q'    	oa comp oadder
+ st=177 rt='[Q]    -> SRC'     	oq wac=2
+ st=178 rt='[SRC]  -> T3'    	it3 rac=2 
+       nst=225
+
+***************** Indexed mode *******************  
+ st=180 rt='[MDR]  -> T1'    	it1 omdr
+ st=181 rt='[T1]+[SRC]->Q'	rac=2 ib oa oadder
+ st=182 rt='[Q]    -> T3'      	oq it3  
+       nst=225
+
+***************** Absolute mode ******************
+ st=185 rt='[MDR]  -> T3'    	it3 omdr
+       nst=225
+
+**************** Immediate mode ******************
+ st=190 rt='[MDR]  -> T2'    	it2 omdr
+       nst=20
+
+************** SECOND FETCH SRC ******************
+ st=195 rt='[PC]   -> MAR'    	rac=1 rn=3 imar 
+ st=196 rt='[[MAR]]-> MDR' 	read
+ st=197 rt='[PC]+1 -> Q'    	oadder p1 ib rac=1 rn=3  
+ st=198 rt='[Q]    -> PC'      	wac=1 wn=3 oq 
+       cond='ir118' value=4 nst=180
+       cond='ir118' value=5 nst=185
+       cond='ir118' value=6 nst=190
+
+
+**************************************************
+********* START: ALU DOUBLE INSTRUCTION **********
+**************************************************
+
+*************** ADD INSTRUCTION ******************
+ st=210 rt='[T2]   -> T1' 	it1 ot2 
+ st=211 rt='[T5]+[T1]->Q' 	oadder oa ib ot5 newv newc 
+ st=212 rt='[Q]    -> T2' 	it2 oq newn newz 
+       nst=90
+
+*************** SUB INSTRUCTION ******************
+ st=215 rt='[T5]   -> T1' 	it1 ot5 
+ st=216 rt='[T1]-[T2]->Q' 	oadder oa ib comp p1 ot2 newv newc 
+ st=217
+	cond='c' value=0 nst=218
+	cond='c' value=1 nst=219
+ st=218 setc 
+       nst=220
+ st=219 clrc
+ st=220 rt='[Q]    -> T2' 	it2 oq newn newz
+       nst=90
+
+************** MOVE INSTRUCTION ******************
+************* CLEAR DESIRED FLAGS ****************
+ st=221 rt='clear c & v'		clrv clrc
+       nst=90    
+
+
+**************************************************
+********* END: ALU DOUBLE INSTRUCTION ************
+**************************************************
+
+**************************************************
+*********** START: READ SRC FROM MEMORY **********
+**************************************************
+ st=225 rt='[T3]   -> MAR' 	imar ot3 
+ st=226 rt='[[MAR]]-> MDR' 	read
+ st=227 rt='[MDR]  -> T2' 	omdr it2  
+       nst=20
+**************************************************
+*********** END: READ SRC FROM MEMORY ************
+**************************************************
+
+****************************************************************
+	**************************************************
+	********* END: DOUBLE OPERAND INSTRUCTIONS *******
+	**************************************************
+****************************************************************
