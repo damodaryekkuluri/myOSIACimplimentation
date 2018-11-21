@@ -2,6 +2,7 @@
 *********   ECE 5362, Au 2018   *********
 *********   Machine Problem 2	*********
 *********   DAMODAR YEKKULURI 	*********
+*********      TYLER SMITH      *********
 *****************************************
 
 ***************************************************
@@ -108,13 +109,13 @@
 ************* INCREMENT INSTRUCTION **************
  st=75 rt='[T5]   -> T1' 	it1 ot5 
  st=76 rt='[T1]+1 -> Q' 	oadder p1 oa newv newc 
- st=77 rt='[Q]    -> T2' 	it2 oq newn newz
+ st=77 rt='[Q]    -> T2' 	it2 oq 
        nst=90
 
 ************ DECREMENT INSTRUCTION ***************
  st=80 rt='[T5]   -> T1' 	it1 ot5 
  st=81 rt='[T1]-1 -> Q' 	oadder comp oa newv newc 
- st=82 rt='[Q]    -> T2' 	it2 oq newn newz 
+ st=82 rt='[Q]    -> T2' 	it2 oq 
        nst=90
 
 ************ NEGATION INSTRUCTION ***************
@@ -124,8 +125,8 @@
 *### Is this bit wise negation or decimal negation##*
 *# Decimal negation may require the p1 control line to make it 2's compliment ##*
 
- st=85 rt='0-[T5] -> Q'         ib comp ot5 oadder newv newc
- st=86 rt='[Q]    -> T2' 	it2 oq newn newz
+ st=85 rt='0-[T5] -> Q'         ib comp ot5 oadder p1 newv newc
+ st=86 rt='[Q]    -> T2' 	it2 oq
        nst=90
  
 **************************************************
@@ -146,7 +147,7 @@
 
 ************* Register Mode (DST) *****************
 ************** TODO: Verify this ****************
-*############### Ask professor #################*
+*############### Verify with Test cases #################*
 *#### Do we need newn newz control line ##############*
 *### We already handled in the ALU instruction ##*
  st=95 rt='[T2]   -> DST' 	wac=3 ot2 newn newz 
@@ -154,7 +155,7 @@
 
 ***************** DST is MEMORY ******************
 ************** TODO: Verify this ****************
-*############### Ask professor #################*
+*############### Verify with Test cases #################*
 *#### Do we need newn newz control line ##############*
 *### We already handled in the ALU instruction ##*
  st=100 rt='[T4]  -> MAR' 	imar ot4 
@@ -263,7 +264,7 @@
 *************** ADD INSTRUCTION ******************
  st=210 rt='[T2]   -> T1' 	it1 ot2 
  st=211 rt='[T5]+[T1]->Q' 	oadder oa ib ot5 newv newc 
- st=212 rt='[Q]    -> T2' 	it2 oq newn newz 
+ st=212 rt='[Q]    -> T2' 	it2 oq 
        nst=90
 
 *************** SUB INSTRUCTION ******************
@@ -275,7 +276,7 @@
  st=218 setc 
        nst=220
  st=219 clrc
- st=220 rt='[Q]    -> T2' 	it2 oq newn newz
+ st=220 rt='[Q]    -> T2' 	it2 oq 
        nst=90
 
 ************** MOVE INSTRUCTION ******************
@@ -283,7 +284,7 @@
 *############### Ask professor #################*
 *#### check if removing the newv newz in section 90 affects this ###############*
 *### When the SRC is moved to the dst the N, Z must be updated##*
- st=221 rt='clear c & v'		clrv clrc
+ st=221 rt='clear c & v' 	clrv clrc
        nst=90    
 
 
